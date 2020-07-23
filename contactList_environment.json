@@ -1,0 +1,49 @@
+{
+	"id": "09188541-73dd-469e-95c5-0edd565b9787",
+	"name": "Contact List",
+	"values": [
+		{
+			"key": "contactId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "firstName",
+			"value": "Carol",
+			"enabled": true
+		},
+		{
+			"key": "lastName",
+			"value": "Smith",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "asmith@thinkingtester.com",
+			"enabled": true
+		},
+		{
+			"key": "country",
+			"value": "USA",
+			"enabled": true
+		},
+		{
+			"key": "jobTitle",
+			"value": "Software Tester",
+			"enabled": true
+		},
+		{
+			"key": "company",
+			"value": "Microsoft",
+			"enabled": true
+		},
+		{
+			"key": "city",
+			"value": "Boston, MA",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2020-07-23T21:12:57.945Z",
+	"_postman_exported_using": "Postman/7.27.1"
+}

@@ -1,0 +1,414 @@
+{
+	"info": {
+		"_postman_id": "038493c7-5bcc-4547-b2fc-3af2a6c7cec2",
+		"name": "Contact List",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basic Endpoints Tests",
+			"item": [
+				{
+					"name": "Get Contact List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b333573f-62d3-4e26-9f41-868a4fe1897c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "3.13.86.142:3000/contacts",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc2da06b-a6eb-4822-b445-0c2631441731",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"contactId\", jsonData._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"location\": {\r\n        \"city\": \"{{city}}\",\r\n        \"country\": \"{{country}}\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"{{jobTitle}}\",\r\n    \t\"company\": \"{{company}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac40066d-70c1-403c-a066-ca8043f42a48",
+								"exec": [
+									"pm.test(\"Correct contact is returned\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"asmith@thinkingtester.com\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct first name is returned\", function () {\r",
+									"    pm.expect(jsonData.firsName).to.eql(environment.firstName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct last name is returned\", function () {\r",
+									"    pm.expect(jsonData.lastName).to.eql(environment.lastName);\r",
+									"});\r",
+									"\r",
+									"// Example of a nested JSON assertion\r",
+									"pm.test(\"Correct city is returned\", function () {\r",
+									"    pm.expect(jsonData.location.city).to.eql(environment.city);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "3.13.86.142:3000/contacts/{{contactId}}",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contact",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Maia\",\r\n    \"lastName\": \"Haltiner\",\r\n    \"email\": \"asmith@thinkingtester.com\",\r\n    \"location\": {\r\n        \"city\": \"Montreal, QC\",\r\n        \"country\": \"USA\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"Software Tester\",\r\n    \t\"company\": \"Microsoft\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts/5f19eaa81707340476573bca",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts",
+								"5f19eaa81707340476573bca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contact",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Maia\",\r\n    \"lastName\": \"Haltiner\",\r\n    \"email\": \"asmith@thinkingtester.com\",\r\n    \"location\": {\r\n        \"city\": \"Montreal, QC\",\r\n        \"country\": \"USA\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"Software Tester\",\r\n    \t\"company\": \"Microsoft\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts/5f19eaa81707340476573bca",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts",
+								"5f19eaa81707340476573bca"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Negative Tests",
+			"item": [
+				{
+					"name": "Get Contact Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b7c48bd-aad0-4665-adac-0817a7d0801a",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "3.13.86.142:3000/contacts/5",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Contact Missing First Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65e3ce00-3ea0-473e-812a-6bcdfa8ba750",
+								"exec": [
+									"pm.test(\"Missing First Name error is returned\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"First Name is required\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"\",\r\n    \"lastName\": \"Smith\",\r\n    \"email\": \"asmith@thinkingtester.com\",\r\n    \"location\": {\r\n        \"city\": \"Boston, MA\",\r\n        \"country\": \"USA\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"Software Tester\",\r\n    \t\"company\": \"Microsoft\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Contact Company Too Long",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Amy\",\r\n    \"lastName\": \"Smith\",\r\n    \"email\": \"asmith@thinkingtester.com\",\r\n    \"location\": {\r\n        \"city\": \"Boston, MA\",\r\n        \"country\": \"USA\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"Software Tester\",\r\n    \t\"company\": \"MicrosoftMicrosoftMicrosoftMicrosoftMicrosoft\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Contact Last Name Invalid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Amy\",\r\n    \"lastName\": \"Smith;\",\r\n    \"email\": \"asmith@thinkingtester.com\",\r\n    \"location\": {\r\n        \"city\": \"Boston, MA\",\r\n        \"country\": \"USA\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"Software Tester\",\r\n    \t\"company\": \"Microsoft\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Contact Invalid Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Amy\",\r\n    \"lastName\": \"Smith\",\r\n    \"email\": \"asmith@thinkingtester\",\r\n    \"location\": {\r\n        \"city\": \"Boston, MA\",\r\n        \"country\": \"USA\"\r\n    },\r\n    \"employer\": {\r\n    \t\"jobTitle\": \"Software Tester\",\r\n    \t\"company\": \"Microsoft\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "3.13.86.142:3000/contacts",
+							"host": [
+								"3",
+								"13",
+								"86",
+								"142"
+							],
+							"port": "3000",
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "bd1270e1-3f62-4677-9c04-f126cad462b0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c5d86212-07a2-401e-9afe-cb9983f387cf",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 3000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
